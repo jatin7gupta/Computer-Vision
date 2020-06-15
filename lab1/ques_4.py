@@ -33,30 +33,28 @@ def show_image(name, img):
     cv2.destroyAllWindows()
 
 
-if __name__ == '__main__':
+def q4(kernal_length):
+    # constants
     sigma = 1
     alpha = 1.25
-    path = 'COMP9517_20T2_Lab1_Image/cat.png'
-    I = cv2.imread(path, 0)
-    cv2.imwrite('init.jpg', I)
 
-    # show_image(path, I)
-
-    # kernal 5,5 and sigma = 1
-    L = cv2.GaussianBlur(I, (5, 5), sigma)
-    # show_image('blur_image_L', L)
+    L = cv2.GaussianBlur(I, (kernal_length, kernal_length), sigma)
 
     H = cv2.subtract(I, L)
-    # show_image('subtracted_image_H', H)
 
-    _H = H*alpha
+    _H = H * alpha
     unit_H = _H.astype('uint8')
-    # show_image('alpha_H', H)
 
     O = cv2.add(I, unit_H)
-    # show_image('final output', O)
-    cv2.imwrite('final_output.jpg', O)
+    # cv2.imwrite(f'{kernal_length}final_output.jpg', O)
 
     contrast_stretched_result = contrast_stretching(O)
-    # show_image('contrast_stretched_result', contrast_stretched_result)
-    cv2.imwrite('contrast_stretched_result.jpg', contrast_stretched_result)
+    # cv2.imwrite(f'{kernal_length}contrast_stretched_result.jpg', contrast_stretched_result)
+
+
+if __name__ == '__main__':
+
+    path = 'COMP9517_20T2_Lab1_Image/cat.png'
+    I = cv2.imread(path, 0)
+
+    q4(0)
