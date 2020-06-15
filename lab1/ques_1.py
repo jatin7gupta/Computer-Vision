@@ -39,10 +39,11 @@ def contrast_stretching(img):
 
 
 path = 'COMP9517_20T2_Lab1_Image/cat.png'
-img = read_image_grey(path)
-show_image(path, img)
 
+if __name__ == '__main__':
+    img = read_image_grey(path)
+    show_image(path, img)
 
-transformed_img = contrast_stretching(img)
-show_image('transformed_image', transformed_img)
+    transformed_img = contrast_stretching(img)
+    show_image('transformed_image', transformed_img)
 

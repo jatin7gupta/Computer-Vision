@@ -1,18 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-
-
-def read_image_grey(path):
-    return cv2.imread(path, 0)
-
-
-def show_image(name, img):
-    cv2.imshow(name, img)
-    cv2.waitKey(0)
-
-    # destroy all windows
-    cv2.destroyAllWindows()
+from ques_1 import show_image, read_image_grey, path, contrast_stretching
 
 
 def get_list(img):
@@ -25,10 +14,27 @@ def get_list(img):
             l.append(img[row][col])
     return l
 
-path = 'COMP9517_20T2_Lab1_Image/cat.png'
-img = read_image_grey(path)
-show_image(path, img)
 
-plt.hist(get_list(img), bins=255)
-plt.ylabel('No of times')
-plt.show()
+if __name__ == '__main__':
+    # normal image
+
+    # load image
+    img = read_image_grey(path)
+    show_image(path, img)
+
+    # plot histogram
+    plt.hist(get_list(img), bins=255)
+    plt.ylabel('No of times')
+    plt.show()
+
+    # transformed image
+
+    # load image
+    img = contrast_stretching(img)
+    show_image('transformed high contrast image', img)
+
+    # plot histogram
+    plt.hist(get_list(img), bins=255)
+    plt.ylabel('No of times')
+    plt.show()
+
