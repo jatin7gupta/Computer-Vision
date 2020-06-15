@@ -12,6 +12,7 @@ def find_min_max_grey_pixel(img):
     return np.amin(img), np.amax(img)
 
 
+# function to implement contrast stretching
 def contrast_stretching(img):
     h = img.shape[0]
     w = img.shape[1]
@@ -25,6 +26,7 @@ def contrast_stretching(img):
     return img
 
 
+# for debugging
 def show_image(name, img):
     cv2.imshow(name, img)
     cv2.waitKey(0)
@@ -42,19 +44,23 @@ def q4(kernel_length):
 
     H = cv2.subtract(I, L)
 
-    _H = H * alpha
-    unit_H = _H.astype('uint8')
+    # dtype -1 signify uint8
+    enhanced_H = cv2.multiply(H, alpha, dtype=-1)
 
-    O = cv2.add(I, unit_H)
-    # cv2.imwrite(f'{kernal_length}final_output.jpg', O)
+    O = cv2.add(I, enhanced_H)
 
+    cv2.imwrite(f'{kernel_length}final_output.jpg', O)
+
+    # applying contrast stretching for more contrast between white and black
     contrast_stretched_result = contrast_stretching(O)
-    # cv2.imwrite(f'{kernal_length}contrast_stretched_result.jpg', contrast_stretched_result)
+    cv2.imwrite(f'{kernel_length}contrast_stretched_result.jpg', contrast_stretched_result)
 
 
 if __name__ == '__main__':
-
     path = 'COMP9517_20T2_Lab1_Image/cat.png'
+
+    # read image as grey scale only
     I = cv2.imread(path, 0)
 
-    q4(0)
+    # call function
+    q4(3)

@@ -1,5 +1,3 @@
-import cv2
-import numpy as np
 import matplotlib.pyplot as plt
 from ques_1 import show_image, read_image_grey, path, contrast_stretching
 
