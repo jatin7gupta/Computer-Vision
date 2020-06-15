@@ -8,7 +8,7 @@ def contrast_stretching_function(i, a, b, c, d):
     return left + a
 
 
-def find_min_max__grey_pixel(img):
+def find_min_max_grey_pixel(img):
     return np.amin(img), np.amax(img)
 
 
@@ -18,7 +18,7 @@ def contrast_stretching(img):
 
     a, b = 0, 255
     # let 𝑐 and 𝑑 be the minimum and maximum pixel values occurring in I
-    c, d = find_min_max__grey_pixel(img)
+    c, d = find_min_max_grey_pixel(img)
     for row in range(h):
         for col in range(w):
             img[row][col] = contrast_stretching_function(img[row][col], a, b, c, d)
@@ -33,12 +33,12 @@ def show_image(name, img):
     cv2.destroyAllWindows()
 
 
-def q4(kernal_length):
+def q4(kernel_length):
     # constants
     sigma = 1
     alpha = 1.25
 
-    L = cv2.GaussianBlur(I, (kernal_length, kernal_length), sigma)
+    L = cv2.GaussianBlur(I, (kernel_length, kernel_length), sigma)
 
     H = cv2.subtract(I, L)
 
