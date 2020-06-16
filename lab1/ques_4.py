@@ -35,10 +35,8 @@ def show_image(name, img):
     cv2.destroyAllWindows()
 
 
-def q4(kernel_length):
+def q4(kernel_length, sigma, alpha):
     # constants
-    sigma = 1
-    alpha = 1.25
 
     L = cv2.GaussianBlur(I, (kernel_length, kernel_length), sigma)
 
@@ -49,11 +47,11 @@ def q4(kernel_length):
 
     O = cv2.add(I, enhanced_H)
 
-    cv2.imwrite(f'{kernel_length}final_output.jpg', O)
+    cv2.imwrite(f'kernal_{kernel_length}_sigma_{sigma}_alpha_{alpha}_O.jpg', O)
 
     # applying contrast stretching for more contrast between white and black
     contrast_stretched_result = contrast_stretching(O)
-    cv2.imwrite(f'{kernel_length}contrast_stretched_result.jpg', contrast_stretched_result)
+    cv2.imwrite(f'kernal_{kernel_length}_sigma_{sigma}_alpha_{alpha}_contrast_stretched.jpg', contrast_stretched_result)
 
 
 if __name__ == '__main__':
@@ -63,4 +61,7 @@ if __name__ == '__main__':
     I = cv2.imread(path, 0)
 
     # call function
-    q4(3)
+    kernel = 3
+    sigma = 1
+    alpha = 1.25
+    q4(kernel_length=kernel, sigma=sigma, alpha=alpha)
