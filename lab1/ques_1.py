@@ -3,7 +3,7 @@ import numpy as np
 
 
 def read_image_grey(path):
-    return cv2.imread(path, 0)
+    return cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 
 
 def show_image(name, img):

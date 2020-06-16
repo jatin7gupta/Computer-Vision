@@ -9,20 +9,23 @@ def convolution(img, kernel):
     img_row, img_col = img.shape
     kernel_row, kernel_col = kernel.shape
 
-    output = np.zeros(img.shape)
+    result = np.zeros(img.shape)
 
-    pad_height = int((kernel_row - 1) / 2)
-    pad_width = int((kernel_col - 1) / 2)
+    pad_height = kernel_row // 2
+    pad_width = kernel_col // 2
 
-    padded_image = np.zeros((img_row + (2 * pad_height), img_col + (2 * pad_width)))
+    # zero image ie zero 2d array
+    padded_img = np.zeros((img_row + (2 * pad_height), img_col + (2 * pad_width)))
 
-    padded_image[pad_height:padded_image.shape[0] - pad_height, pad_width:padded_image.shape[1] - pad_width] = img
+    # embedding input image in padded image
+    padded_img[pad_height:padded_img.shape[0] - pad_height, pad_width:padded_img.shape[1] - pad_width] = img
 
     for row in range(img_row):
         for col in range(img_col):
-            output[row, col] = np.sum(kernel * padded_image[row:row + kernel_row, col:col + kernel_col])
+            # matrix multiplication
+            result[row, col] = np.sum(kernel * padded_img[row:row + kernel_row, col:col + kernel_col])
 
-    return output
+    return result
 
 
 def normalize(img):

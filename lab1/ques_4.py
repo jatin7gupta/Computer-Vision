@@ -58,10 +58,11 @@ if __name__ == '__main__':
     path = 'COMP9517_20T2_Lab1_Image/cat.png'
 
     # read image as grey scale only
-    I = cv2.imread(path, 0)
+    I = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
 
     # call function
-    kernel = 3
-    sigma = 1
+    # Since kernel size is zero, cv2 will automatically take kernel size with respect to sigma
+    kernel = 0
+    sigma = 3
     alpha = 1.25
     q4(kernel_length=kernel, sigma=sigma, alpha=alpha)
