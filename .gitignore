@@ -3,3 +3,4 @@ lab1/.ipynb_checkpoints/*
 lab1/.idea/*
 *.ipynb_checkpoints*
 lab1/__pycache__/*
+*/.idea/*
