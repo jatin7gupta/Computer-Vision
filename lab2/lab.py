@@ -163,6 +163,7 @@ def task2(img, name):
 
     # cv2.drawMatchesKnn expects list of lists as matches.
     img3 = cv2.drawMatchesKnn(img, kp1, resized, kp2, good[:5], img, flags=2)
+
     cv2.imwrite(name + '_D.jpg', img3)
 
 
@@ -202,6 +203,8 @@ def task3(img, name):
 
     # cv2.drawMatchesKnn expects list of lists as matches.
     img3 = cv2.drawMatchesKnn(img, kp1, rotated, kp2, good[:5], img, flags=2)
+    print(good[:5])
+
     cv2.imwrite(name + '_D.jpg', img3)
 
 
