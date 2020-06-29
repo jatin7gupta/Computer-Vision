@@ -40,7 +40,9 @@ def plot_three_images(figure_title, image1, label1,
     plt.imshow(image3)
     plt.axis('off')
     plt.title(label3)
+    name, ext = figure_title.split('.')
 
+    plt.savefig(f'{name}_three.jpg', bbox_inches='tight', pad_inches=0)
     plt.show()
 
 
@@ -81,7 +83,8 @@ for img_path in images:
     ms_labels = ms_labels.reshape(b.shape)
     plt.imshow(ms_labels)
     name, ext = img_path.split('.')
-    plt.savefig(f'{name}_segmented.png', bbox_inches='tight', pad_inches=0)
+    plt.axis('off')
+    plt.savefig(f'{name}_meanshift_segmented.png', bbox_inches='tight', pad_inches=0)
     plt.show()
 
     #%%
