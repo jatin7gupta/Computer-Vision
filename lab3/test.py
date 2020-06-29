@@ -101,8 +101,6 @@ for img_path in images:
     # Step 2 - Calculate the distance transform
     # Hint: use     ndi.distance_transform_edt(img_array)
     distance = ndi.distance_transform_edt(img_array)
-    plt.imshow(distance)
-    plt.show()
 
     # Step 3 - Generate the watershed markers
     # Hint: use the peak_local_max() function from the skimage.feature library
@@ -126,24 +124,39 @@ for img_path in images:
     plot_three_images(img_path, img_mat, "Original Image", distance, "Watershed Distance",
                       ws_labels, "Watershed Labels")
 
-# #%%
-# #
-# # +-------------------+
-# # |     Task 3        |
-# # +-------------------+
-# #
-# # Loop for the extension component
-# for img_path in ext_images:
-#     img = Image.open(img_path)
-#     img.thumbnail(size)
+#%%
+#
+# +-------------------+
+# |     Task 3        |
+# +-------------------+
+#
+# Loop for the extension component
+for img_path in ext_images:
+    img = Image.open(img_path)
+    img.thumbnail(size)
 
+    img_mat = np.array(img)[:, :, :3]
+    b, g, r = img_mat[:, :, 0], img_mat[:, :, 1], img_mat[:, :, 2]
+    b_flat = b.flatten()
+    g_flat = g.flatten()
+    r_flat = r.flatten()
+    colour_samples = np.column_stack((b_flat, g_flat, r_flat))
 
-#     # TODO: perform meanshift on image
-#     ms_labels = img  # CHANGE THIS
+    # TODO: perform meanshift on image
+    ms_clf = MeanShift(bin_seeding=True)
+    ms_labels = ms_clf.fit_predict(colour_samples)
+    ms_labels = ms_labels.reshape(b.shape)
 
-#     # TODO: perform an optimisation and then watershed on image
-#     ws_labels = img  # CHANGE THIS
+    grey = img.convert('L')
+    img_array = np.array(grey)
+    distance = ndi.distance_transform_edt(img_array)
+    local_maxi = peak_local_max(distance, threshold_abs=8, indices=False, footprint=np.ones((1, 1)),
+                                labels=img_array)
+    markers = ndi.label(local_maxi)[0]
 
-#     # Display the results
-#     plot_three_images(img_path, img, "Original Image", ms_labels, "MeanShift Labels",
-#                       ws_labels, "Watershed Labels")
+    # TODO: perform an optimisation and then watershed on image
+    ws_labels = watershed(-distance, markers, mask=img_array)
+
+    # Display the results
+    plot_three_images(img_path, img_mat, "Original Image", ms_labels, "MeanShift Labels",
+                      ws_labels, "Watershed Labels")
