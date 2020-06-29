@@ -82,45 +82,49 @@ for img_path in images:
     plt.imshow(ms_labels)
     name, ext = img_path.split('.')
     plt.savefig(f'{name}_segmented.png', bbox_inches='tight', pad_inches=0)
-    # plt.show()
+    plt.show()
 
-#     #%%
-#     #
-#     # +--------------------+
-#     # |     Task 2         |
-#     # +--------------------+
-#     #
+    #%%
+    #
+    # +--------------------+
+    # |     Task 2         |
+    # +--------------------+
+    #
 
-#     # TODO: perform Watershed on image
-#     # Follow the hints in the lab spec.
+    # TODO: perform Watershed on image
+    # Follow the hints in the lab spec.
 
-#     # Step 1 - Convert the image to gray scale
-#     # and convert the image to a numpy matrix
-#     img_array = []
+    # Step 1 - Convert the image to gray scale
+    # and convert the image to a numpy matrix
+    grey = img.convert('L')
+    img_array = np.array(grey)
+    # Step 2 - Calculate the distance transform
+    # Hint: use     ndi.distance_transform_edt(img_array)
+    distance = ndi.distance_transform_edt(img_array)
+    plt.imshow(distance)
+    plt.show()
 
-#     # Step 2 - Calculate the distance transform
-#     # Hint: use     ndi.distance_transform_edt(img_array)
-#     distance = []
+    # Step 3 - Generate the watershed markers
+    # Hint: use the peak_local_max() function from the skimage.feature library
+    # to get the local maximum values and then convert them to markers
+    # using ndi.label() -- note the markers are the 0th output to this function
+    local_maxi = peak_local_max(distance, indices=False, footprint=np.ones((3, 3)),
+                                labels=img_array)
+    markers = ndi.label(local_maxi)[0]
 
-#     # Step 3 - Generate the watershed markers
-#     # Hint: use the peak_local_max() function from the skimage.feature library
-#     # to get the local maximum values and then convert them to markers
-#     # using ndi.label() -- note the markers are the 0th output to this function
-#     markers = []
+    # Step 4 - Perform watershed and store the labels
+    # Hint: use the watershed() function from the skimage.morphology library
+    # with three inputs: -distance, markers and your image array as a mask
+    ws_labels = watershed(-distance, markers, mask=img_array)
 
-#     # Step 4 - Perform watershed and store the labels
-#     # Hint: use the watershed() function from the skimage.morphology library
-#     # with three inputs: -distance, markers and your image array as a mask
-#     ws_labels = []
+    # Display the results
+    # plot_three_images(img_path, img, "Original Image", ms_labels, "MeanShift Labels",
+    #                   ws_labels, "Watershed Labels")
 
-#     # Display the results
-#     plot_three_images(img_path, img, "Original Image", ms_labels, "MeanShift Labels",
-#                       ws_labels, "Watershed Labels")
-
-#     # If you want to visualise the watershed distance markers then try
-#     # plotting the code below.
-#     # plot_three_images(img_path, img, "Original Image", -distance, "Watershed Distance",
-#     #                   ws_labels, "Watershed Labels")
+    # If you want to visualise the watershed distance markers then try
+    # plotting the code below.
+    plot_three_images(img_path, img_mat, "Original Image", distance, "Watershed Distance",
+                      ws_labels, "Watershed Labels")
 
 # #%%
 # #
