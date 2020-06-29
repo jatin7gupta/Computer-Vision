@@ -153,7 +153,7 @@ for img_path in ext_images:
     grey = img.convert('L')
     img_array = np.array(grey)
     distance = ndi.distance_transform_edt(img_array)
-    local_maxi = peak_local_max(distance, threshold_abs=8, indices=False, footprint=np.ones((1, 1)),
+    local_maxi = peak_local_max(distance, threshold_abs=9, indices=False, footprint=np.ones((1, 1)),
                                 labels=img_array)
     markers = ndi.label(local_maxi)[0]
 
